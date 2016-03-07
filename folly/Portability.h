@@ -41,6 +41,10 @@
 # include <malloc/malloc.h>
 #endif
 
+#ifdef __FREEBSD__
+#include <malloc_np.h>
+#endif
+
 #if FOLLY_HAVE_SCHED_H
  #include <sched.h>
  #ifndef FOLLY_HAVE_PTHREAD_YIELD
@@ -198,7 +202,7 @@
 # endif
 #endif
 
-#if defined(__GNUC__) && !defined(__APPLE__) && !__GNUC_PREREQ(4,9)
+#if defined(__GNUC__) && !defined(__APPLE__) && !__GNUC_PREREQ(4,9) && !defined(__FreeBSD__)
 // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=56019
 // gcc 4.8.x incorrectly placed max_align_t in the root namespace
 // Alias it into std (where it's found in 4.9 and later)
