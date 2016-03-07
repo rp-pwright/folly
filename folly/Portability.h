@@ -45,7 +45,7 @@
 #include <malloc_np.h>
 #endif
 
-#if FOLLY_HAVE_SCHED_H
+#if FOLLY_HAVE_SCHED_H && !defined(__FreeBSD__)
  #include <sched.h>
  #ifndef FOLLY_HAVE_PTHREAD_YIELD
   #define pthread_yield sched_yield
