@@ -1688,7 +1688,7 @@ ssize_t AsyncSocket::performWrite(const iovec* vec,
 
   int msg_flags = MSG_DONTWAIT;
 
-#ifdef MSG_NOSIGNAL // Linux-only
+#ifdef MSG_MORE // Linux-only
   msg_flags |= MSG_NOSIGNAL;
   if (isSet(flags, WriteFlags::CORK)) {
     // MSG_MORE tells the kernel we have more data to send, so wait for us to
