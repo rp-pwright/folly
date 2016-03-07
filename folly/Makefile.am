@@ -443,7 +443,7 @@ libfolly_la_SOURCES += \
 	experimental/io/HugePages.cpp
 endif
 
-if !HAVE_LINUX
+if HAVE_DARWIN
 libfollybase_la_SOURCES += detail/Clock.cpp
 endif
 
