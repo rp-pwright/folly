@@ -31,17 +31,30 @@
 #include <stdio.h>
 #include <stdexcept>
 
+#if defined(__FreeBSD__)
+#include <pthread_np.h>
+#endif
+
 using std::string;
 using namespace std::chrono;
 
 namespace folly {
 
+#if defined(__FreeBSD__)
+/**
+  * SYS_getid() is Linux specific, on FreeBSD return threadid
+  */
+static pid_t gettid() {
+  return pthread_getthreadid_np();
+}
+#elif defined(__linux__)
 /**
  * glibc doesn't provide gettid(), so define it ourselves.
  */
 static pid_t gettid() {
   return syscall(SYS_gettid);
 }
+#endif
 
 /**
  * The /proc/<pid>/schedstat file reports time values in jiffies.
