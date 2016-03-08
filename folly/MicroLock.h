@@ -22,6 +22,10 @@
 #include <folly/detail/Futex.h>
 #include <folly/Portability.h>
 
+#if defined(__FreeBSD__)
+#include <sched.h>
+#endif
+
 namespace folly {
 
 /**
