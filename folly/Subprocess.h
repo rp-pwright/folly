@@ -95,7 +95,7 @@
 
 #include <sys/types.h>
 #include <signal.h>
-#if __APPLE__
+#if __APPLE__ || defined(_FreeBSD__)
 #include <sys/wait.h>
 #else
 #include <wait.h>

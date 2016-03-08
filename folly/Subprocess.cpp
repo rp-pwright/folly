@@ -486,11 +486,20 @@ int Subprocess::prepareChild(const Options& options,
   }
 #endif
 
+#if __FreeBSD__
+  // setpgrp() is deprecated by getpgrp() on FreeBSD
+  if (options.processGroupLeader_) {
+    if (getpgrp() == -1) {
+      return errno;
+    }
+  }
+#else
   if (options.processGroupLeader_) {
     if (setpgrp() == -1) {
       return errno;
     }
   }
+#endif
 
   // The user callback comes last, so that the child is otherwise all set up.
   if (options.dangerousPostForkPreExecCallback_) {
