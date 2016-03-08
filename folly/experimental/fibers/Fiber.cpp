@@ -29,6 +29,10 @@
 #include <folly/experimental/fibers/FiberManager.h>
 #include <folly/portability/Syscall.h>
 
+#if defined(__FreeBSD__)
+#include <pthread_np.h>
+#endif
+
 namespace folly { namespace fibers {
 
 namespace {
@@ -39,7 +43,11 @@ pid_t localThreadId() {
   // OSX doesn't support thread_local.
   static FOLLY_TLS pid_t threadId = 0;
   if (UNLIKELY(threadId == 0)) {
+#if defined(__FreeBSD__)
+    threadId = pthread_getthreadid_np();
+#else
     threadId = syscall(FOLLY_SYS_gettid);
+#endif
   }
   return threadId;
 }
