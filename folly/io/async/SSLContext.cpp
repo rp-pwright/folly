@@ -669,7 +669,7 @@ static unsigned long callbackThreadID() {
 #ifdef __APPLE__
     pthread_mach_thread_np(pthread_self())
 #else
-    pthread_self()
+    (unsigned long)pthread_self()
 #endif
   );
 }
